@@ -1,11 +1,16 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import { Player, ControlBar } from 'video-react';
 
 import workers from '../main/workers';
 
 interface Props {}
 
-interface States {}
+interface States {
+  srcStream: any;
+  player: any;
+  currentTime: any;
+}
 
 class WebCam extends React.Component<Props, States> {
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -15,10 +20,24 @@ class WebCam extends React.Component<Props, States> {
     super(props);
     this.videoRef = React.createRef();
     this.canvasRef = React.createRef();
+    this.state = {
+      srcStream: '',
+      player: {},
+      currentTime: 0
+    };
   }
 
   componentDidMount() {
     this.enableVideo();
+  }
+
+  handlePlayerStateChange(state: any, prevState: any) {
+    // copy player state to this component's state
+    this.setState({
+      player: state,
+      currentTime: state.currentTime
+    });
+    console.log(state);
   }
 
   streamToImage(stream: MediaStream): ReadableStream {
@@ -72,8 +91,8 @@ class WebCam extends React.Component<Props, States> {
         if (!this.videoRef.current || !this.canvasRef.current) {
           return;
         }
-        this.videoRef.current.srcObject = localMediaStream;
 
+        this.videoRef.current.srcObject = localMediaStream;
         this.canvasRef.current.width =
           localMediaStream.getVideoTracks()[0].getSettings().width || 0;
         this.canvasRef.current.height =
