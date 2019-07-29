@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 
+import VideoNameList from '../components/VideoNameList';
 import WebCam from '../components/WebCam';
 import './Root.scss';
 
@@ -14,7 +15,11 @@ class Root extends React.Component<Props, States> {
   }
 
   render() {
-    return <WebCam />;
+    return;
+    <>
+      <VideoNameList />
+      <WebCam />
+    </>;
   }
 }
 
