@@ -1,29 +1,29 @@
 import { Action, ActionCreator } from 'redux';
 
-import { SampleImage } from '../../model/Schema';
+import { SampleVideo } from '../../model/Schema';
 
-export const SELECTIMAGELIST = 'SELECTIMAGELIST';
+export const SELECTVIDEOLIST = 'SELECTVIDEOLIST';
 export const SELECTPROCESSORLIST = 'SELECTPROCESSORLIST';
 export const ADDFILESTOLIST = 'ADDFILESTOLIST';
 export const DELETEFROMLIST = 'DELETEFROMLIST';
 
-export interface SelectImageAction extends Action {
-  type: 'SELECTIMAGELIST';
+export interface SelectVideoAction extends Action {
+  type: 'SELECTVIDEOLIST';
 }
 export interface SelectProcessorAction extends Action {
   type: 'SELECTPROCESSORLIST';
 }
 export interface AddFileAction extends Action {
   type: 'ADDFILESTOLIST';
-  payload: SampleImage;
+  payload: SampleVideo;
 }
 export interface DeleteFileAction extends Action {
   type: 'DELETEFROMLIST';
   payload: string;
 }
 
-export const changeToImage: ActionCreator<SelectImageAction> = () => ({
-  type: SELECTIMAGELIST
+export const changeToImage: ActionCreator<SelectVideoAction> = () => ({
+  type: SELECTVIDEOLIST
 });
 export const changeToProcessor: ActionCreator<SelectProcessorAction> = () => ({
   type: SELECTPROCESSORLIST
@@ -38,7 +38,7 @@ export const deleteFile: ActionCreator<DeleteFileAction> = payload => ({
 });
 
 export type ListAction =
-  | SelectImageAction
+  | SelectVideoAction
   | SelectProcessorAction
   | AddFileAction
   | DeleteFileAction;

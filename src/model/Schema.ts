@@ -28,11 +28,11 @@ export interface ProcessorInfo {
   metadata?: Metadata;
 }
 
-export interface SampleImage {
+export interface SampleVideo {
   id: string;
   path: string;
   metadata: Metadata;
-  processors: ProcessorInfo[];
+  processors?: ProcessorInfo[];
 }
 
 /**
@@ -51,6 +51,6 @@ export interface Setting {
 
 export default interface Schema {
   processors: Processor[];
-  sampleImages: SampleImage[];
+  sampleVideos: SampleVideo[];
   setting: Setting;
 }

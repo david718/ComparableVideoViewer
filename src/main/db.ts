@@ -11,7 +11,7 @@ const dbPath: string = path.join(userDataPath, 'db.json');
 const adapter = new FileSync<Schema>(dbPath, {
   defaultValue: {
     processors: [],
-    sampleImages: [],
+    sampleVideos: [],
     setting: {
       user: {
         name: 'unknown'

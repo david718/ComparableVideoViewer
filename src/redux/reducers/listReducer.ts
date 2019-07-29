@@ -2,30 +2,30 @@ import { Reducer } from 'redux';
 import * as _ from 'lodash';
 
 import {
-  SELECTIMAGELIST,
+  SELECTVIDEOLIST,
   SELECTPROCESSORLIST,
   ADDFILESTOLIST,
   DELETEFROMLIST,
   ListAction
 } from '../actions/ListAction';
 
-import { SampleImage, Processor } from '../../model/Schema';
+import { SampleVideo, Processor } from '../../model/Schema';
 
 export interface ListState {
-  readonly sampleImages: SampleImage[];
+  readonly sampleVideos: SampleVideo[];
   readonly processors: Processor[];
   readonly status: 'imageList' | 'processorList' | 'addFilesToList';
 }
 
 const defaultState: ListState = {
-  sampleImages: [],
+  sampleVideos: [],
   processors: [],
   status: 'imageList'
 };
 
 export const listReducer: Reducer<ListState> = (state = defaultState, action: ListAction) => {
   switch (action.type) {
-    case SELECTIMAGELIST:
+    case SELECTVIDEOLIST:
       return {
         ...state,
         status: 'imageList'
@@ -38,14 +38,14 @@ export const listReducer: Reducer<ListState> = (state = defaultState, action: Li
     case ADDFILESTOLIST:
       return {
         ...state,
-        sampleImages: state.sampleImages.concat(action.payload)
+        sampleImages: state.sampleVideos.concat(action.payload)
       };
     case DELETEFROMLIST:
-      const newSampleImages = _.cloneDeep(state.sampleImages);
-      _.remove(newSampleImages, { id: action.payload });
+      const newSampleVideos = _.cloneDeep(state.sampleVideos);
+      _.remove(newSampleVideos, { id: action.payload });
       return {
         ...state,
-        sampleImages: newSampleImages
+        sampleVideos: newSampleVideos
       };
     default:
       return state;
