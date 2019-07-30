@@ -10,14 +10,8 @@ const dbPath: string = path.join(userDataPath, 'db.json');
 
 const adapter = new FileSync<Schema>(dbPath, {
   defaultValue: {
-    processors: [],
-    sampleVideos: [],
-    setting: {
-      user: {
-        name: 'unknown'
-      },
-      count: 0
-    }
+    anims: [],
+    selectAnimId: ''
   }
 });
 

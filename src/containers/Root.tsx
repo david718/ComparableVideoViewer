@@ -21,7 +21,7 @@ class Root extends React.Component<Props, States> {
       <>
         <Header />
         <SplitPane split="vertical" minSize={150} defaultSize={150}>
-          <AnimList anims={['알라딘', '라이온킹']} />
+          <AnimList />
           <ComparableVideoViewer />
         </SplitPane>
       </>

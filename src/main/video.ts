@@ -1,16 +1,10 @@
 import { remote } from 'electron';
 import * as _ from 'lodash';
-import { Info } from '../model/Schema';
 import { generate } from 'shortid';
-
-export interface Anim {
-  id: string;
-  path: string;
-  info: Info;
-}
-
 const ffprobe = remote.require('ffprobe');
 const ffprobeStatic = remote.require('ffprobe-static');
+
+import { Info, Anim } from '../model/Schema';
 
 const createVideoInfo = (item: string) =>
   new Promise<Anim>((resolve, reject) =>

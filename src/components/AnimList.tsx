@@ -4,7 +4,8 @@ import * as _ from 'lodash';
 
 import { ListAction, addFiles } from '../redux/actions/ListAction';
 import { RootState } from '../redux/reducers';
-import { Anim, videoSelector } from '../main/video';
+import { videoSelector } from '../main/video';
+import { Anim } from '../model/Schema';
 import AnimListItem from './AnimListItem';
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
   addFilesToList: (payload: Anim[]) => any;
 }
 
-const AnimList: React.FC<Props> = ({ anims, addFilesToList }) => {
+const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
+  console.log(anims);
   const AnimTagList = anims.map(anim => <AnimListItem key={anim.id} name={anim.path} />);
 
   const selectFiles = async (): Promise<void> => {
@@ -40,9 +42,12 @@ const mapDispatchToProps = (dispatch: React.Dispatch<ListAction>) => ({
   addFilesToList: (payload: Anim[]) => dispatch(addFiles(payload))
 });
 
-const mapStateToProps = (state: RootState) => ({
-  anims: state.list.anims
-});
+const mapStateToProps = (state: RootState) => {
+  console.log(state);
+  return {
+    anims: state.list.anims
+  };
+};
 
 export default connect(
   mapStateToProps,

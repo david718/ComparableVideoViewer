@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import Root from './containers/Root';
 import { store, persistor } from './redux/store';
@@ -16,7 +17,9 @@ const render = (Component: React.ComponentClass) => {
     //  <OriginalImageList sampleImages={ props }/>,
     <AppContainer>
       <Provider store={store}>
-        <Component />
+        <PersistGate loading={null} persistor={persistor}>
+          <Component />
+        </PersistGate>
       </Provider>
     </AppContainer>,
     mainElement

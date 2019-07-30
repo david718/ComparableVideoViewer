@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from 'redux';
 
-import { SampleVideo } from '../../model/Schema';
+import { Anim } from '../../model/Schema';
 
 export const SELECTVIDEOLIST = 'SELECTVIDEOLIST';
 export const SELECTPROCESSORLIST = 'SELECTPROCESSORLIST';
@@ -15,7 +15,7 @@ export interface SelectProcessorAction extends Action {
 }
 export interface AddFileAction extends Action {
   type: 'ADDFILESTOLIST';
-  payload: SampleVideo;
+  payload: Anim[];
 }
 export interface DeleteFileAction extends Action {
   type: 'DELETEFROMLIST';

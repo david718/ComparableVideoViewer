@@ -5,11 +5,9 @@ import {
   SELECTVIDEOLIST,
   SELECTPROCESSORLIST,
   ADDFILESTOLIST,
-  DELETEFROMLIST,
   ListAction
 } from '../actions/ListAction';
-import { Anim } from '../../main/video';
-import { Processor } from '../../model/Schema';
+import { Anim } from '../../model/Schema';
 
 export interface ListState {
   readonly anims: Anim[];
