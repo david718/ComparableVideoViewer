@@ -5,7 +5,6 @@ import SplitPane from 'react-split-pane';
 import Header from '../components/Header';
 import ComparableVideoViewer from '../components/ComparableVideoViewer';
 import AnimList from '../components/AnimList';
-import WebCam from '../components/WebCam';
 import './Root.scss';
 
 interface Props {}

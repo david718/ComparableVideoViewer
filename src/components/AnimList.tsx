@@ -3,29 +3,22 @@ import { connect } from 'react-redux';
 import * as _ from 'lodash';
 
 import { ListAction, addFiles } from '../redux/actions/ListAction';
-import { SampleVideo } from '../model/Schema';
-
+import { RootState } from '../redux/reducers';
+import { Anim, videoSelector } from '../main/video';
 import AnimListItem from './AnimListItem';
-import { videoSelector } from '../main/video';
 
 interface Props {
-  anims: string[];
-  addFilesToList: (payload: SampleVideo) => any;
+  anims: Anim[];
+  addFilesToList: (payload: Anim[]) => any;
 }
 
-const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
-  const AnimTagList = anims.map((name, i) => <AnimListItem key={i + name} name={name} />);
+const AnimList: React.FC<Props> = ({ anims, addFilesToList }) => {
+  const AnimTagList = anims.map(anim => <AnimListItem key={anim.id} name={anim.path} />);
 
   const selectFiles = async (): Promise<void> => {
     videoSelector()
       .then((data): void => {
-        console.log(data);
-        Promise.all<void>(
-          _.map(data, item => {
-            console.log('!!');
-            // createSampleVideo(item);
-          })
-        );
+        addFilesToList(data);
       })
       .catch((err): void => {
         console.error(err);
@@ -44,10 +37,14 @@ const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
 };
 
 const mapDispatchToProps = (dispatch: React.Dispatch<ListAction>) => ({
-  addFilesToList: (payload: SampleVideo) => dispatch(addFiles(payload))
+  addFilesToList: (payload: Anim[]) => dispatch(addFiles(payload))
+});
+
+const mapStateToProps = (state: RootState) => ({
+  anims: state.list.anims
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AnimList);

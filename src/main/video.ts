@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Info } from '../model/Schema';
 import { generate } from 'shortid';
 
-export interface ResultData {
+export interface Anim {
   id: string;
   path: string;
   info: Info;
@@ -13,7 +13,7 @@ const ffprobe = remote.require('ffprobe');
 const ffprobeStatic = remote.require('ffprobe-static');
 
 const createVideoInfo = (item: string) =>
-  new Promise<ResultData>((resolve, reject) =>
+  new Promise<Anim>((resolve, reject) =>
     ffprobe(item, { path: ffprobeStatic.path }, (err: Error, info: Info): void => {
       if (err) {
         reject(err);
@@ -23,10 +23,10 @@ const createVideoInfo = (item: string) =>
     })
   );
 
-const createVideoInfoList = (videoPaths: string[]): Promise<ResultData[]> =>
-  Promise.all<ResultData>(_.map(videoPaths, createVideoInfo));
+const createVideoInfoList = (videoPaths: string[]): Promise<Anim[]> =>
+  Promise.all<Anim>(_.map(videoPaths, createVideoInfo));
 
-const videoSelector = (): Promise<ResultData[]> =>
+const videoSelector = (): Promise<Anim[]> =>
   new Promise((resolve, reject): void => {
     console.log('videoSelector');
     remote.dialog.showOpenDialog(
@@ -49,7 +49,7 @@ const videoSelector = (): Promise<ResultData[]> =>
         if (!filePaths || _.isEmpty(filePaths)) {
           reject(new Error('Empty File'));
         } else {
-          createVideoInfoList(filePaths).then((result: ResultData[]) => {
+          createVideoInfoList(filePaths).then((result: Anim[]) => {
             resolve(result);
             console.log(result);
           });
