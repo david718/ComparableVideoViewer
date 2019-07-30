@@ -1,21 +1,24 @@
 import { remote } from 'electron';
 import * as _ from 'lodash';
-import { Metadata } from '../model/Schema';
+import { Info } from '../model/Schema';
+import { generate } from 'shortid';
 
 export interface ResultData {
+  id: string;
   path: string;
-  metadata: Metadata;
+  info: Info;
 }
 
-const gm = remote.require('gm');
+const ffprobe = remote.require('ffprobe');
+const ffprobeStatic = remote.require('ffprobe-static');
 
 const createVideoInfo = (item: string) =>
   new Promise<ResultData>((resolve, reject) =>
-    gm(item).identify((err: Error, metadata: Metadata): void => {
+    ffprobe(item, { path: ffprobeStatic.path }, (err: Error, info: Info): void => {
       if (err) {
         reject(err);
       } else {
-        resolve({ metadata, path: item });
+        resolve({ info, id: generate(), path: item });
       }
     })
   );
@@ -25,13 +28,14 @@ const createVideoInfoList = (videoPaths: string[]): Promise<ResultData[]> =>
 
 const videoSelector = (): Promise<ResultData[]> =>
   new Promise((resolve, reject): void => {
+    console.log('videoSelector');
     remote.dialog.showOpenDialog(
       remote.getCurrentWindow(),
       {
         filters: [
           {
             name: 'Videos',
-            extensions: ['mp4']
+            extensions: ['mp4', 'mpeg', 'avi']
           }
         ],
         properties: [

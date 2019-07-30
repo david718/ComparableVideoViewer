@@ -1,9 +1,14 @@
 import * as React from 'react';
+import { Player } from 'video-react';
 
 const ComparableVideoViewer = () => {
   return (
     <div>
-      <div>여기 애니 보여줄 자리</div>
+      <div>
+        <Player>
+          <source src={'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'} />
+        </Player>
+      </div>
     </div>
   );
 };
