@@ -20,7 +20,7 @@ class Root extends React.Component<Props, States> {
     return (
       <>
         <Header />
-        <SplitPane split="vertical" minSize={150} defaultSize={150}>
+        <SplitPane split="vertical" minSize={250} defaultSize={250}>
           <AnimList />
           <ComparableVideoViewer />
         </SplitPane>

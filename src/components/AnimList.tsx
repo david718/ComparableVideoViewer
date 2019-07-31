@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as path from 'path';
 import * as _ from 'lodash';
 
 import { ListAction, addFiles } from '../redux/actions/ListAction';
@@ -14,10 +15,11 @@ interface Props {
 }
 
 const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
-  console.log(anims);
-  const AnimTagList = anims.map(anim => <AnimListItem key={anim.id} name={anim.path} />);
+  const AnimTagList = anims.map(anim => {
+    return <AnimListItem key={anim.id} id={anim.id} name={path.basename(anim.path)} />;
+  });
 
-  const selectFiles = async (): Promise<void> => {
+  const getAnimsFromLocal = async (): Promise<void> => {
     videoSelector()
       .then((data): void => {
         addFilesToList(data);
@@ -27,12 +29,10 @@ const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
       });
   };
 
-  const handleClick = () => selectFiles();
-
   return (
     <div>
       <div>애니메이션 목록</div>
-      <button onClick={handleClick}>Add+</button>
+      <button onClick={getAnimsFromLocal}>Add+</button>
       {AnimTagList}
     </div>
   );

@@ -1,4 +1,4 @@
-import { Reducer, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
 import { ListState, listReducer } from './listReducer';
 import { ViewState, viewReducer } from './viewReducer';

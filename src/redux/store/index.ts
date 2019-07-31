@@ -1,4 +1,4 @@
-import { combineReducers, compose, applyMiddleware, createStore, Store } from 'redux';
+import { applyMiddleware, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';

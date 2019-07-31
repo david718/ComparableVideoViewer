@@ -1,12 +1,7 @@
 import { Reducer } from 'redux';
 import * as _ from 'lodash';
 
-import {
-  SELECTVIDEOLIST,
-  SELECTPROCESSORLIST,
-  ADDFILESTOLIST,
-  ListAction
-} from '../actions/ListAction';
+import { SELECTVIDEOLIST, ADDFILESTOLIST, ListAction } from '../actions/ListAction';
 import { Anim } from '../../model/Schema';
 
 export interface ListState {
@@ -24,17 +19,14 @@ export const listReducer: Reducer<ListState> = (state = defaultState, action: Li
     case SELECTVIDEOLIST:
       return {
         ...state,
-        status: 'imageList'
-      };
-    case SELECTPROCESSORLIST:
-      return {
-        ...state,
-        status: 'processorList'
+        selectedAnimId: action.payload
       };
     case ADDFILESTOLIST:
+      const animPaths = state.anims.map(anim => anim.path);
+      const addAnims = action.payload.filter(newAnim => animPaths.indexOf(newAnim.path) === -1);
       return {
         ...state,
-        anims: state.anims.concat(action.payload)
+        anims: state.anims.concat(addAnims)
       };
     default:
       return state;
