@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import * as _ from 'lodash';
 
-import { SELECTVIDEOLIST, ADDFILESTOLIST, ListAction } from '../actions/ListAction';
+import { SELECTANIM, ADDFILESTOLIST, ListAction, DELETEFROMLIST } from '../actions/ListAction';
 import { Anim } from '../../model/Schema';
 
 export interface ListState {
@@ -16,7 +16,7 @@ const defaultState: ListState = {
 
 export const listReducer: Reducer<ListState> = (state = defaultState, action: ListAction) => {
   switch (action.type) {
-    case SELECTVIDEOLIST:
+    case SELECTANIM:
       return {
         ...state,
         selectedAnimId: action.payload
