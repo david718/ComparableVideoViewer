@@ -28,6 +28,11 @@ export const listReducer: Reducer<ListState> = (state = defaultState, action: Li
         ...state,
         anims: state.anims.concat(addAnims)
       };
+    case DELETEFROMLIST:
+      return {
+        ...state,
+        anims: state.anims.filter(anim => anim.id !== action.payload)
+      };
     default:
       return state;
   }
