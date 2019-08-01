@@ -82,7 +82,6 @@
   "private": true,
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.0.2",
-    "@types/gm": "^1.18.3",
     "@types/jest": "^24.0.14",
     "@types/lodash": "^4.14.134",
     "@types/lowdb": "^1.0.9",
@@ -144,7 +143,6 @@
     "@material-ui/icons": "^4.2.0",
     "ffprobe": "^1.1.0",
     "ffprobe-static": "^3.0.0",
-    "gm": "^1.23.1",
     "lodash": "^4.17.11",
     "logrocket": "^1.0.0",
     "lowdb": "^1.0.0",
