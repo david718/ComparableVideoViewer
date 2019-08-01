@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import styledComponents from 'styled-components';
+import styled from 'styled-components';
 
 import { ListAction, selectAnim } from '../redux/actions/ListAction';
 import { RootState } from '../redux/reducers';
