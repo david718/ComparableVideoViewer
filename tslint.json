@@ -1,29 +1,25 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint-config-airbnb",
-        "tslint-react",
-        "tslint-config-prettier"
+  "defaultSeverity": "error",
+  "extends": ["tslint-config-airbnb", "tslint-react", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "max-line-length": [true, 120],
+    "trailing-comma": true,
+    "ter-indent": [
+      true,
+      2,
+      {
+        "SwitchCase": 1
+      }
     ],
-    "jsRules": {},
-    "rules": {
-        "max-line-length": [true, 120],
-        "trailing-comma": true,
-        "ter-indent": [
-            true, 
-            2, 
-            {
-                "SwitchCase": 1
-            }
-        ],
-        "variable-name": false,
-        "jsx-alignment": true,
-        "jsx-equals-spacing": [true, "never"],
-        "jsx-no-string-ref": true,
-        "jsx-self-close": true,
-        "jsx-wrap-multiline": false,
-        "jsx-no-lambda": false,
-        "import-name": [true, { "reactSplitPane": "SplitPane" }]
-    },
-    "rulesDirectory": []
+    "variable-name": false,
+    "jsx-alignment": true,
+    "jsx-equals-spacing": [true, "never"],
+    "jsx-no-string-ref": true,
+    "jsx-self-close": true,
+    "jsx-wrap-multiline": false,
+    "jsx-no-lambda": false,
+    "import-name": [true, { "reactSplitPane": "SplitPane" }, { "styledComponents": "styled" }]
+  },
+  "rulesDirectory": []
 }
