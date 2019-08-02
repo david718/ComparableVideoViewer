@@ -15,13 +15,13 @@ interface Props {
 
 const RAnimItem = styled.div`
   background-color: ${props => (props.defaultChecked ? 'gainsboro' : 'white')};
-  box-sizing: border-box;
-  margin: 10px;
+  border: solid;
+  border-radius: 3;
+  border-color: white;
+  margin: 5px;
   padding: 10px;
   position: relative;
   :hover {
-    border: solid;
-    border-radius: 3;
     border-color: gainsboro;
   }
   :hover .remove {
@@ -31,8 +31,8 @@ const RAnimItem = styled.div`
 
 const Remove = styled.span`
   position: absolute;
+  font-weight: bold;
   right: 10px;
-  font-size: 25px;
   color: #e64980;
   opacity: 0;
   :hover {
@@ -62,7 +62,7 @@ const AnimListItem: React.SFC<Props> = ({
     <RAnimItem onClick={selectAnim} defaultChecked={id === selectedId}>
       <span>{name}</span>
       <Remove className="remove" onClick={deleteAnimByClick}>
-        x
+        X
       </Remove>
     </RAnimItem>
   );
