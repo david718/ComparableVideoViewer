@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import SplitPane from 'react-split-pane';
 
 import Header from '../components/Header';
-import ComparableVideoViewer from '../components/ComparableVideoViewer';
+import VideoViewer from '../components/VideoViewer';
 import AnimList from '../components/AnimList';
 import './Root.scss';
 
@@ -22,7 +22,7 @@ class Root extends React.Component<Props, States> {
         <Header />
         <SplitPane split="vertical" minSize={250} defaultSize={250}>
           <AnimList />
-          <ComparableVideoViewer />
+          <VideoViewer />
         </SplitPane>
       </>
     );

@@ -1,36 +1,72 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import * as path from 'path';
-
-import VideoViewerByCanvas from './VideoViewerByCanvas';
-import { RootState } from '../redux/reducers';
-import { Anim } from '../model/Schema';
 
 interface Props {
-  anims: Anim[];
-  selectedAnimId: string;
+  src: string;
 }
 
-const ComparableVideoViewer: React.SFC<Props> = ({ anims, selectedAnimId }) => {
-  let selectedPath = '영상을 선택해주세요';
-  anims.forEach(anim => {
-    if (anim.id === selectedAnimId) selectedPath = anim.path;
-  });
+const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
+  const videoRef: React.RefObject<HTMLVideoElement> = React.useRef(null);
+  const video = videoRef.current;
 
-  const animName = path.basename(selectedPath).split('.')[0];
+  const canvasRef: React.RefObject<HTMLCanvasElement> = React.useRef(null);
+  const highCanvasRef: React.RefObject<HTMLCanvasElement> = React.useRef(null);
+
+  const interval = setInterval(() => {
+    if (video) {
+      const videoToCanvas = (video: any, canvas: any, position: any, width: any) => {
+        if (canvas) {
+          canvas.width = video.videoWidth / 2;
+          canvas.height = video.videoHeight;
+
+          canvas
+            .getContext('2d')
+            .drawImage(
+              video,
+              position === 'left' ? 0 : video.videoWidth / 2,
+              0,
+              width,
+              video.videoHeight,
+              0,
+              0,
+              width,
+              video.videoHeight
+            );
+        }
+      };
+      videoToCanvas(video, canvasRef.current, 'left', video.videoWidth / 4);
+      videoToCanvas(video, highCanvasRef.current, 'right', video.videoWidth / 2);
+    }
+  });
+  React.useEffect(() => {
+    return () => clearInterval(interval);
+  }, []);
+
+  const startAnim = () => {
+    if (video) {
+      video.play();
+    }
+  };
+
+  const pauseAnim = () => {
+    if (video) {
+      video.pause();
+    }
+  };
+
   return (
-    <div>
-      <div>{animName}</div>
-      <VideoViewerByCanvas src={`file://${selectedPath}`} />
+    <div style={{ position: 'relative' }}>
+      <canvas style={{ position: 'absolute', top: 0, left: 0 }} ref={highCanvasRef}/>
+      <canvas style={{ position: 'absolute', top: 0, left: 0 }} ref={canvasRef} />
+
+      <video style={{ display: 'none' }} ref={videoRef} src={src} controls={true} />
+      <div
+        style={{ position: 'absolute', top: video ? video.videoHeight : 360, left: 0, padding: 10 }}
+      >
+        <button onClick={startAnim}>시작</button>
+        <button onClick={pauseAnim}>멈춤</button>
+      </div>
     </div>
   );
 };
 
-const mapStateToProps = (state: RootState) => {
-  return { anims: state.list.anims, selectedAnimId: state.list.selectedAnimId };
-};
-
-export default connect(
-  mapStateToProps,
-  null
-)(ComparableVideoViewer);
+export default ComparableVideoViewer;
