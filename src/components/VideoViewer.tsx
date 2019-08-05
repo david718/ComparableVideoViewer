@@ -21,7 +21,7 @@ const VideoViewer: React.SFC<Props> = ({ anims, selectedAnimId }) => {
   return (
     <div>
       <div>{animName}</div>
-      <VideoViewerByCanvas src={`file://${selectedPath}`} />
+      <ComparableVideoViewer src={`file://${selectedPath}`} />
     </div>
   );
 };
