@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Player } from 'video-react';
+import { connect } from 'react-redux';
 import * as path from 'path';
 
+import VideoViewerByCanvas from './VideoViewerByCanvas';
 import { RootState } from '../redux/reducers';
-import { connect } from 'react-redux';
 import { Anim } from '../model/Schema';
 
 interface Props {
@@ -21,9 +21,7 @@ const ComparableVideoViewer: React.SFC<Props> = ({ anims, selectedAnimId }) => {
   return (
     <div>
       <div>{animName}</div>
-      <Player key={`file://${selectedPath}`}>
-        <source src={`file://${selectedPath}`} />
-      </Player>
+      <VideoViewerByCanvas src={`file://${selectedPath}`} />
     </div>
   );
 };
