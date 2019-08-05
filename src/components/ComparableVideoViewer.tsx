@@ -13,28 +13,39 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
 
   const interval = setInterval(() => {
     if (video) {
-      const videoToCanvas = (video: any, canvas: any, position: any, width: any) => {
+      const videoToCanvas = (
+        video: any,
+        canvas: any,
+        position: 'left' | 'right',
+        width: number,
+        bar: boolean
+      ) => {
         if (canvas) {
-          canvas.width = video.videoWidth / 2;
+          canvas.width = width;
           canvas.height = video.videoHeight;
 
-          canvas
-            .getContext('2d')
-            .drawImage(
-              video,
-              position === 'left' ? 0 : video.videoWidth / 2,
-              0,
-              width,
-              video.videoHeight,
-              0,
-              0,
-              width,
-              video.videoHeight
-            );
+          const ctx = canvas.getContext('2d');
+
+          ctx.drawImage(
+            video,
+            position === 'left' ? 0 : video.videoWidth / 2,
+            0,
+            width,
+            video.videoHeight,
+            0,
+            0,
+            width,
+            video.videoHeight
+          );
+          if (bar) {
+            ctx.rect(width - 10, 0, 10, video.videoHeight);
+            ctx.fill();
+          }
         }
       };
-      videoToCanvas(video, canvasRef.current, 'left', video.videoWidth / 4);
-      videoToCanvas(video, highCanvasRef.current, 'right', video.videoWidth / 2);
+
+      videoToCanvas(video, highCanvasRef.current, 'right', video.videoWidth / 2, false);
+      videoToCanvas(video, canvasRef.current, 'left', video.videoWidth / 4, true);
     }
   });
   React.useEffect(() => {
@@ -55,9 +66,8 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <canvas style={{ position: 'absolute', top: 0, left: 0 }} ref={highCanvasRef}/>
-      <canvas style={{ position: 'absolute', top: 0, left: 0 }} ref={canvasRef} />
-
+      <canvas style={{ position: 'absolute', top: 0, left: 0 }} ref={highCanvasRef} />
+      <canvas style={{ position: 'absolute', top: 0, left: 0 }} ref={canvasRef}/>
       <video style={{ display: 'none' }} ref={videoRef} src={src} controls={true} />
       <div
         style={{ position: 'absolute', top: video ? video.videoHeight : 360, left: 0, padding: 10 }}
