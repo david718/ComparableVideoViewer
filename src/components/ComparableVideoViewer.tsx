@@ -18,13 +18,9 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
       canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
 
-      const barWidth = 10;
-
-      let dragabble: boolean = false;
-
-      let y: number = 0;
       const canvasX = canvas.getBoundingClientRect().left;
-      const canvasY = canvas.getBoundingClientRect().top;
+      let dragabble: boolean = false;
+      const barWidth = 10;
 
       const drawBar = (x: number, y: number, w: number, h: number, style: string) => {
         ctx.fillStyle = style;
@@ -32,22 +28,19 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
         ctx.fill();
       };
 
-      const myMove = (e: any) => {
+      const barMove = (e: any) => {
         if (dragabble) {
           setBarX(e.pageX - canvasX);
-          y = e.pageY - canvasY;
         }
       };
-      const myDown = (e: any) => {
+      const mouseDown = (e: any) => {
         if (barX < e.pageX - canvasX && e.pageX - canvasX < barX + barWidth) {
-          console.log('click');
-          setBarX(e.pageX - canvasX);
-          y = e.pageY - canvasY;
+          setBarX(e.pageX - canvasX - barWidth / 2);
           dragabble = true;
-          canvas.onmousemove = myMove;
+          canvas.onmousemove = barMove;
         }
       };
-      const myUp = () => {
+      const mouseUp = () => {
         dragabble = false;
         canvas.onmousemove = null;
       };
@@ -57,13 +50,13 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
       ctx.beginPath();
       const backgroundVideoConfig = {
         video,
-        sourceX: video.videoWidth / 2 + width,
+        sourceX: video.videoWidth / 2 + barX,
         sourceY: 0,
-        sourceWidth: video.videoWidth / 2 - width,
+        sourceWidth: video.videoWidth / 2 - barX,
         sourceHeight: video.videoHeight,
-        drawX: width,
+        drawX: barX,
         drawY: 0,
-        drawWidth: video.videoWidth / 2 - width,
+        drawWidth: video.videoWidth / 2 - barX,
         drawHeight: video.videoHeight
       };
       ctx.drawImage(...Object.values(backgroundVideoConfig));
@@ -73,20 +66,20 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
         video,
         sourceX: 0,
         sourceY: 0,
-        sourceWidth: width,
+        sourceWidth: barX,
         sourceHeight: video.videoHeight,
         drawX: 0,
         drawY: 0,
-        drawWidth: width,
+        drawWidth: barX,
         drawHeight: video.videoHeight
       };
       ctx.drawImage(...Object.values(overrideVideoConfig));
 
       ctx.beginPath();
-      drawBar(barX, y, barWidth, video.videoHeight, '#444444');
+      drawBar(barX, 0, barWidth, video.videoHeight, '#444444');
 
-      canvas.onmousedown = myDown;
-      canvas.onmouseup = myUp;
+      canvas.onmousedown = mouseDown;
+      canvas.onmouseup = mouseUp;
     }
   };
 
