@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 interface Props {
   src: string;
 }
@@ -10,66 +9,95 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.useRef(null);
 
-  const twoVideosToCanvasWithBar = (video: any, canvas: any, width: number) => {
-    const backgroundVideoConfig = {
-      video,
-      sourceX: video.videoWidth / 2 + width,
-      sourceY: 0,
-      sourceWidth: video.videoWidth / 2 - width,
-      sourceHeight: video.videoHeight,
-      drawX: width,
-      drawY: 0,
-      drawWidth: video.videoWidth / 2 - width,
-      drawHeight: video.videoHeight
-    };
-    const overrideVideoConfig = {
-      video,
-      sourceX: 0,
-      sourceY: 0,
-      sourceWidth: width,
-      sourceHeight: video.videoHeight,
-      drawX: 0,
-      drawY: 0,
-      drawWidth: width,
-      drawHeight: video.videoHeight
-    };
+  // videoWidth - barWidth 가 barX 의 초기값
+  const [barX, setBarX] = React.useState(160 - 10);
+
+  const devineVideoToCanvasWithBar = (video: any, canvas: any, width: number) => {
     if (canvas) {
       canvas.width = video.videoWidth / 2;
       canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
 
+      const barWidth = 10;
+
+      let dragabble: boolean = false;
+
+      let y: number = 0;
+      const canvasX = canvas.getBoundingClientRect().left;
+      const canvasY = canvas.getBoundingClientRect().top;
+
+      const drawBar = (x: number, y: number, w: number, h: number, style: string) => {
+        ctx.fillStyle = style;
+        ctx.rect(x, y, w, h);
+        ctx.fill();
+      };
+
+      const myMove = (e: any) => {
+        if (dragabble) {
+          setBarX(e.pageX - canvasX);
+          y = e.pageY - canvasY;
+        }
+      };
+      const myDown = (e: any) => {
+        if (barX < e.pageX - canvasX && e.pageX - canvasX < barX + barWidth) {
+          console.log('click');
+          setBarX(e.pageX - canvasX);
+          y = e.pageY - canvasY;
+          dragabble = true;
+          canvas.onmousemove = myMove;
+        }
+      };
+      const myUp = () => {
+        dragabble = false;
+        canvas.onmousemove = null;
+      };
+
+      ctx.clearRect(0, 0, video.videoWidth / 2, video.videoHeight);
+
       ctx.beginPath();
+      const backgroundVideoConfig = {
+        video,
+        sourceX: video.videoWidth / 2 + width,
+        sourceY: 0,
+        sourceWidth: video.videoWidth / 2 - width,
+        sourceHeight: video.videoHeight,
+        drawX: width,
+        drawY: 0,
+        drawWidth: video.videoWidth / 2 - width,
+        drawHeight: video.videoHeight
+      };
       ctx.drawImage(...Object.values(backgroundVideoConfig));
 
       ctx.beginPath();
-      ctx.drawImage(...Object.values(overrideVideoConfig));
-
-      const barWidth = 10;
-      const barConfig = {
-        drawX: video.videoWidth / 2 - barWidth,
+      const overrideVideoConfig = {
+        video,
+        sourceX: 0,
+        sourceY: 0,
+        sourceWidth: width,
+        sourceHeight: video.videoHeight,
+        drawX: 0,
         drawY: 0,
-        drawWidth: barWidth,
+        drawWidth: width,
         drawHeight: video.videoHeight
       };
+      ctx.drawImage(...Object.values(overrideVideoConfig));
 
       ctx.beginPath();
-      if (width > video.videoWidth / 2 - barWidth) {
-        ctx.rect(...Object.values(barConfig));
-        ctx.fill();
-      } else {
-        ctx.rect(width, 0, 10, video.videoHeight);
-        ctx.fill();
-      }
+      drawBar(barX, y, barWidth, video.videoHeight, '#444444');
+
+      canvas.onmousedown = myDown;
+      canvas.onmouseup = myUp;
     }
   };
-  const interval = setInterval(() => {
-    if (video) {
-      twoVideosToCanvasWithBar(video, canvasRef.current, video.videoWidth / 4);
-    }
-  });
+
   React.useEffect(() => {
+    const interval = setInterval(() => {
+      if (video) {
+        devineVideoToCanvasWithBar(video, canvasRef.current, video.videoWidth / 4);
+      }
+    });
     return () => clearInterval(interval);
-  }, []);
+  }, [video, barX]);
 
   const startAnim = () => {
     if (video) {
