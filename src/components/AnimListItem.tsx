@@ -54,7 +54,6 @@ const AnimListItem: React.SFC<Props> = ({
   };
   const deleteAnimByClick = (e: any) => {
     e.stopPropagation();
-    console.log('delete');
     deleteAnim(id);
   };
 

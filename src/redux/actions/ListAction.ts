@@ -4,6 +4,7 @@ import { Anim } from '../../model/Schema';
 export const SELECTANIM = 'SELECTANIM';
 export const ADDFILESTOLIST = 'ADDFILESTOLIST';
 export const DELETEFROMLIST = 'DELETEFROMLIST';
+export const CHANGEBARPOSITION = 'CHANGEBARPOSITION';
 export const CHANGEVIEWPOINT = 'CHANGEVIEWPOINT';
 
 export interface SelectVideoAction extends Action {
@@ -17,6 +18,10 @@ export interface AddFileAction extends Action {
 export interface DeleteFileAction extends Action {
   type: 'DELETEFROMLIST';
   payload: string;
+}
+export interface ChangeBarAction extends Action {
+  type: 'CHANGEBARPOSITION';
+  payload: number;
 }
 export interface ChangeViewAction extends Action {
   type: 'CHANGEVIEWPOINT';
@@ -34,8 +39,17 @@ export const deleteAnim: ActionCreator<DeleteFileAction> = payload => ({
   payload,
   type: DELETEFROMLIST
 });
+export const changeBarPostion: ActionCreator<ChangeBarAction> = payload => ({
+  payload,
+  type: CHANGEBARPOSITION
+});
 export const changeViewPoint: ActionCreator<ChangeViewAction> = () => ({
   type: CHANGEVIEWPOINT
 });
 
-export type ListAction = SelectVideoAction | AddFileAction | DeleteFileAction | ChangeViewAction;
+export type ListAction =
+  | SelectVideoAction
+  | AddFileAction
+  | DeleteFileAction
+  | ChangeBarAction
+  | ChangeViewAction;

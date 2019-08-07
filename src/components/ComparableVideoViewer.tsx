@@ -1,19 +1,22 @@
 import * as React from 'react';
-import { Anim } from '../model/Schema';
+import { connect } from 'react-redux';
+
+import { ListAction, changeBarPostion } from '../redux/actions/ListAction';
+import { RootState } from '../redux/reducers';
 
 interface Props {
   src: string;
+  barX: number;
+  setBarX: (payload: number) => any;
 }
 
-const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
+const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
   const videoRef: React.RefObject<HTMLVideoElement> = React.useRef(null);
   const video = videoRef.current;
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.useRef(null);
 
   // videoWidth - barWidth 가 barX 의 초기값
-
-  const [barX, setBarX] = React.useState(50);
 
   const devineVideoToCanvasWithBar = (video: any, canvas: any, width: number) => {
     if (canvas) {
@@ -123,4 +126,16 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src }) => {
   );
 };
 
-export default ComparableVideoViewer;
+const mapDispatchToProps = (dispatch: React.Dispatch<ListAction>) => ({
+  setBarX: (payload: number) => dispatch(changeBarPostion(payload))
+});
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    barX: state.list.barX
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ComparableVideoViewer);

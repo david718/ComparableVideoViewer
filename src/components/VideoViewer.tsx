@@ -29,7 +29,10 @@ const VideoViewer: React.SFC<Props> = ({ anims, selectedAnimId }) => {
 };
 
 const mapStateToProps = (state: RootState) => {
-  return { anims: state.list.anims, selectedAnimId: state.list.selectedAnimId };
+  return {
+    anims: state.list.anims,
+    selectedAnimId: state.list.selectedAnimId
+  };
 };
 
 export default connect(
