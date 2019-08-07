@@ -13,11 +13,13 @@ interface Props {
 
 const VideoViewer: React.SFC<Props> = ({ anims, selectedAnimId }) => {
   let selectedPath = '영상을 선택해주세요';
+
   anims.forEach(anim => {
     if (anim.id === selectedAnimId) selectedPath = anim.path;
   });
 
   const animName = path.basename(selectedPath).split('.')[0];
+
   return (
     <div>
       <div>{animName}</div>
