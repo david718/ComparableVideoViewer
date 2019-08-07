@@ -16,8 +16,6 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.useRef(null);
 
-  // videoWidth - barWidth 가 barX 의 초기값
-
   const devineVideoToCanvasWithBar = (video: any, canvas: any, width: number) => {
     if (canvas) {
       canvas.width = video.videoWidth / 2;
@@ -88,6 +86,16 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
 
       ctx.beginPath();
       drawBar(width, 0, barWidth, video.videoHeight, '#444444');
+
+      ctx.beginPath();
+      ctx.font = '10px Arial';
+      ctx.fillStyle = 'white';
+      ctx.fillText('Hello World', 10, 10);
+
+      ctx.beginPath();
+      ctx.font = '10px Arial';
+      ctx.fillStyle = 'white';
+      ctx.fillText('하이로', canvas.width - ctx.measureText('하이로').width - 10, 10);
 
       canvas.onmousedown = mouseDown;
       canvas.onmouseup = mouseUp;
