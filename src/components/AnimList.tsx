@@ -20,13 +20,12 @@ const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
   });
 
   const getAnimsFromLocal = async (): Promise<void> => {
-    videoSelector()
-      .then((data): void => {
-        addFilesToList(data);
-      })
-      .catch((err): void => {
-        console.error(err);
-      });
+    try {
+      const localAnims = await videoSelector();
+      addFilesToList(localAnims);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

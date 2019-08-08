@@ -22,7 +22,6 @@ const createVideoInfoList = (videoPaths: string[]): Promise<Anim[]> =>
 
 const videoSelector = (): Promise<Anim[]> =>
   new Promise((resolve, reject): void => {
-    console.log('videoSelector');
     remote.dialog.showOpenDialog(
       remote.getCurrentWindow(),
       {
@@ -39,13 +38,11 @@ const videoSelector = (): Promise<Anim[]> =>
         ]
       },
       async filePaths => {
-        console.log(filePaths);
         if (!filePaths || _.isEmpty(filePaths)) {
           reject(new Error('Empty File'));
         } else {
           createVideoInfoList(filePaths).then((result: Anim[]) => {
             resolve(result);
-            console.log(result);
           });
         }
       }
