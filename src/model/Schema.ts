@@ -109,4 +109,5 @@ export interface Anim {
 export default interface Schema {
   anims: Anim[];
   selectAnimId: string;
+  barX: number;
 }

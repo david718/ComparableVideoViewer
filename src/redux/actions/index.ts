@@ -1,4 +1,4 @@
 import { ListAction } from './ListAction';
-import { ViewAction } from './viewAction';
+import { ViewAction } from './ViewAction';
 
 export type RootActions = ListAction[keyof ListAction] | ViewAction[keyof ViewAction];

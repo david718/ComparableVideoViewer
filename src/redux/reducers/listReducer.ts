@@ -22,7 +22,7 @@ const defaultState: ListState = {
   barX: 0
 };
 
-export const listReducer: Reducer<ListState> = (state = defaultState, action: ListAction) => {
+export const listReducer: Reducer<ListState, ListAction> = (state = defaultState, action) => {
   switch (action.type) {
     case SELECTANIM:
       const selectedAnim = state.anims.filter(anim => anim.id === action.payload)[0];
