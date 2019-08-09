@@ -1,4 +1,4 @@
-# electron-react-typescript(Redux, styled-component)
+# ComparableVideoViewer
 
 ### What is this app?
 
