@@ -16,7 +16,7 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.useRef(null);
 
-  const devineVideoToCanvasWithBar = (video: any, canvas: any, width: number) => {
+  const devineVideoToCanvasWithBar = (video: any, canvas: any, barX: number) => {
     if (canvas) {
       canvas.width = video.videoWidth / 2;
       canvas.height = video.videoHeight;
@@ -33,7 +33,7 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
         }
       };
       const mouseDown = (e: any) => {
-        if (width < e.pageX - canvasX && e.pageX - canvasX < width + barWidth) {
+        if (barX < e.pageX - canvasX && e.pageX - canvasX < barX + barWidth) {
           setBarX(e.pageX - canvasX - barWidth / 2);
           dragabble = true;
           canvas.onmousemove = barMove;
@@ -59,13 +59,13 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
       ctx.beginPath();
       const backgroundVideoConfig = {
         video,
-        sourceX: video.videoWidth / 2 + width,
+        sourceX: video.videoWidth / 2 + barX,
         sourceY: 0,
-        sourceWidth: video.videoWidth / 2 - width,
+        sourceWidth: video.videoWidth / 2 - barX,
         sourceHeight: video.videoHeight,
-        drawX: width,
+        drawX: barX,
         drawY: 0,
-        drawWidth: video.videoWidth / 2 - width,
+        drawWidth: video.videoWidth / 2 - barX,
         drawHeight: video.videoHeight
       };
       ctx.drawImage(...Object.values(backgroundVideoConfig));
@@ -75,27 +75,49 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
         video,
         sourceX: 0,
         sourceY: 0,
-        sourceWidth: width,
+        sourceWidth: barX,
         sourceHeight: video.videoHeight,
         drawX: 0,
         drawY: 0,
-        drawWidth: width,
+        drawWidth: barX,
         drawHeight: video.videoHeight
       };
       ctx.drawImage(...Object.values(overrideVideoConfig));
 
       ctx.beginPath();
-      drawBar(width, 0, barWidth, video.videoHeight, '#444444');
+      drawBar(barX, 0, barWidth, video.videoHeight, '#444444');
+
+      const drawText = (
+        size: number,
+        family: string,
+        color: string,
+        src: string,
+        textX: number
+      ) => {
+        ctx.font = `${size.toString()}px ${family}`;
+        ctx.fillStyle = color;
+        ctx.fillText(src, textX, size + 10);
+      };
 
       ctx.beginPath();
-      ctx.font = '10px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText('Hello World', 10, 10);
+      const leftText = {
+        size: 15,
+        family: 'Arial',
+        color: 'white',
+        src: 'original video',
+        textX: 10
+      };
+      drawText(leftText.size, leftText.family, leftText.color, leftText.src, leftText.textX);
 
       ctx.beginPath();
-      ctx.font = '10px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText('하이로', canvas.width - ctx.measureText('하이로').width - 10, 10);
+      const rightText = {
+        size: 15,
+        family: 'Arial',
+        color: 'white',
+        src: '화질개선 영상',
+        textX: canvas.width - ctx.measureText('화질개선 영상').width - 10
+      };
+      drawText(rightText.size, rightText.family, rightText.color, rightText.src, rightText.textX);
 
       canvas.onmousedown = mouseDown;
       canvas.onmouseup = mouseUp;
