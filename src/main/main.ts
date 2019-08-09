@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -11,12 +11,12 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map(name => installer.default(installer[name], forceDownload))
-  ).catch(console.log);
+  ).catch(err => console.error(err));
 };
 
 const createWindow = async () => {
   if (process.env.NODE_ENV !== 'production') {
-    await installExtensions();
+    installExtensions();
   }
 
   win = new BrowserWindow({
@@ -31,13 +31,12 @@ const createWindow = async () => {
   if (process.env.NODE_ENV !== 'production') {
     win.loadURL(`http://localhost:2003`);
   } else {
-    win.loadURL(
-      url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-      })
-    );
+    const fileURL = await url.format({
+      pathname: path.join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    });
+    win.loadURL(fileURL);
   }
 
   win.on('closed', () => {

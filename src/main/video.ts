@@ -6,26 +6,23 @@ const ffprobeStatic = remote.require('ffprobe-static');
 
 import { Info, Anim } from '../model/Schema';
 
-const createVideoInfo = (item: string) =>
-  new Promise<Anim>((resolve, reject) =>
-    ffprobe(item, { path: ffprobeStatic.path }, (err: Error, info: Info): void => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ info, id: generate(), path: item });
-      }
-    })
-  );
+const createVideoInfo = (item: string): Promise<Anim> =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const info: Info = await ffprobe(item, { path: ffprobeStatic.path });
+      resolve({ info, id: generate(), path: item });
+    } catch (err) {
+      reject(err);
+    }
+  });
 
 const createVideoInfoList = (videoPaths: string[]): Promise<Anim[]> =>
   Promise.all<Anim>(_.map(videoPaths, createVideoInfo));
 
 const videoSelector = (): Promise<Anim[]> =>
-  new Promise((resolve, reject): void => {
-    console.log('videoSelector');
-    remote.dialog.showOpenDialog(
-      remote.getCurrentWindow(),
-      {
+  new Promise(async (resolve, reject) => {
+    try {
+      const filePaths = await remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
         filters: [
           {
             name: 'Videos',
@@ -37,19 +34,17 @@ const videoSelector = (): Promise<Anim[]> =>
           // 'openDirectory',
           'multiSelections'
         ]
-      },
-      async filePaths => {
-        console.log(filePaths);
-        if (!filePaths || _.isEmpty(filePaths)) {
-          reject(new Error('Empty File'));
-        } else {
-          createVideoInfoList(filePaths).then((result: Anim[]) => {
-            resolve(result);
-            console.log(result);
-          });
-        }
+      });
+
+      if (!filePaths || _.isEmpty(filePaths)) {
+        reject(new Error('Empty File'));
+      } else {
+        const anims: Anim[] = await createVideoInfoList(filePaths);
+        resolve(anims);
       }
-    );
+    } catch (err) {
+      reject(err);
+    }
   });
 
 export { videoSelector, createVideoInfo };

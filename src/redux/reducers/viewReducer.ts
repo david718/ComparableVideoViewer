@@ -1,23 +1,20 @@
 import { Reducer } from 'redux';
 
-import { CHANGEIMAGE, ViewAction } from '../actions/viewAction';
+import { CHANGEBARPOSITION, ViewAction } from '../actions/ViewAction';
 
 export interface ViewState {
-  readonly viewImageId: string;
+  readonly barX: number;
 }
 
 const defaultState: ViewState = {
-  viewImageId: 'sample'
+  barX: 0
 };
 
-export const viewReducer: Reducer<ViewState, ViewAction> = (
-  state = defaultState,
-  action
-): ViewState => {
+export const viewReducer: Reducer<ViewState, ViewAction> = (state = defaultState, action) => {
   switch (action.type) {
-    case CHANGEIMAGE:
+    case CHANGEBARPOSITION:
       return {
-        viewImageId: action.payload
+        barX: action.payload
       };
     default:
       return state;
