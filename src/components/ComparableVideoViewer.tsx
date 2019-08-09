@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import { ListAction, changeBarPostion } from '../redux/actions/ListAction';
 import { RootState } from '../redux/reducers';
@@ -9,6 +10,11 @@ interface Props {
   barX: number;
   setBarX: (payload: number) => any;
 }
+
+const SComparableVideoViewer = styled.div`
+  background-image: url('https://hsr.hodooai.com/5dcc6881b85f662376bf08b591a186bd.png');
+  background-size: cover;
+`;
 
 const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
   const videoRef: React.RefObject<HTMLVideoElement> = React.useRef(null);
@@ -115,14 +121,14 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
     }
   };
   return (
-    <div>
+    <SComparableVideoViewer>
       <canvas ref={canvasRef} />
       <video style={{ display: 'none' }} ref={videoRef} src={src} controls={true} />
       <div>
         <button onClick={startAnim}>시작</button>
         <button onClick={pauseAnim}>멈춤</button>
       </div>
-    </div>
+    </SComparableVideoViewer>
   );
 };
 
