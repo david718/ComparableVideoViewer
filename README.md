@@ -1,4 +1,4 @@
-# ComparableVideoViewer
+# ComparableVideoViewer(electron for linux)
 
 ### What is this app?
 
