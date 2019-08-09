@@ -11,6 +11,21 @@ interface Props {
   setBarX: (payload: number) => any;
 }
 
+const SButton = styled.button`
+  width: 80px;
+  height: 40px;
+  margin: 10px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #ff8702;
+  color: white;
+  font-size: 16px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const SComparableVideoViewer = styled.div`
   background-image: url('https://hsr.hodooai.com/5dcc6881b85f662376bf08b591a186bd.png');
   background-size: cover;
@@ -120,8 +135,8 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
         size: 15,
         family: 'Arial',
         color: 'white',
-        src: '화질개선 영상',
-        textX: canvas.width - ctx.measureText('화질개선 영상').width - 10
+        src: 'SR video',
+        textX: canvas.width - ctx.measureText('SR video').width - 10
       };
       drawText(rightText.size, rightText.family, rightText.color, rightText.src, rightText.textX);
 
@@ -155,8 +170,8 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
       <canvas ref={canvasRef} />
       <video style={{ display: 'none' }} ref={videoRef} src={src} controls={true} />
       <div>
-        <button onClick={startAnim}>시작</button>
-        <button onClick={pauseAnim}>멈춤</button>
+        <SButton onClick={startAnim}>Start</SButton>
+        <SButton onClick={pauseAnim}>Pause</SButton>
       </div>
     </SComparableVideoViewer>
   );

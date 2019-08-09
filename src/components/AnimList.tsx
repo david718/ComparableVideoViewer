@@ -19,25 +19,29 @@ const SAnimList = styled.div`
   margin: 10px;
 `;
 
-const Title = styled.div`
+const STitle = styled.div`
   margin: 10px;
 
   color: #ff8702;
   font-size: 24px;
 `;
 
-const SButton = styled.button`
-  display: block;
+const SButtonImg = styled.img`
+  vertical-align: middle;
+  width: 28px;
+  margin-right: 10px;
+`;
 
+const SButton = styled.button`
   width: 150px;
-  margin: 10px auto;
-  padding: 10px 15px;
+  height: 40px;
+  margin: 10px;
 
   border: 1px solid transparent;
   border-radius: 4px;
   background-color: #ff8702;
   color: white;
-  font-size: 20px;
+  font-size: 16px;
   :hover {
     cursor: pointer;
   }
@@ -59,8 +63,11 @@ const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
 
   return (
     <SAnimList>
-      <Title>Animation List</Title>
-      <SButton onClick={getAnimsFromLocal}>Choose File</SButton>
+      <STitle>Animation List</STitle>
+      <SButton onClick={getAnimsFromLocal}>
+        <SButtonImg src="https://hsr.hodooai.com/afece89d83a535935c4d0fd0253aab30.png" />
+        Choose File
+      </SButton>
       {AnimTagList}
     </SAnimList>
   );

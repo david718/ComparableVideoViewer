@@ -13,15 +13,17 @@ interface Props {
   deleteAnim: (payload: string) => any;
 }
 
-const RAnimItem = styled.div`
+const SAnimItem = styled.div`
   margin: 10px;
   padding: 10px;
-  border: solid;
-  border-radius: 3;
-  border-color: white;
 
+  border: 2px solid transparent;
+  border-radius: 4px;
+  border-color: white;
   background-color: ${props => (props.defaultChecked ? 'gainsboro' : 'white')};
+  font-size: 16px;
   :hover {
+    border: 2px solid;
     border-color: gainsboro;
     cursor: default;
   }
@@ -32,7 +34,6 @@ const RAnimItem = styled.div`
 
 const Remove = styled.span`
   float: right;
-  margin: 10px;
 
   font-weight: bold;
   color: #e64980;
@@ -60,12 +61,12 @@ const AnimListItem: React.SFC<Props> = ({
   };
 
   return (
-    <RAnimItem onClick={selectAnim} defaultChecked={id === selectedId}>
+    <SAnimItem onClick={selectAnim} defaultChecked={id === selectedId}>
       <span>{name}</span>
       <Remove className="remove" onClick={deleteAnimByClick}>
         X
       </Remove>
-    </RAnimItem>
+    </SAnimItem>
   );
 };
 

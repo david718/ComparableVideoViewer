@@ -41,7 +41,8 @@ export const listReducer: Reducer<ListState, ListAction> = (state = defaultState
     case DELETEFROMLIST:
       return {
         ...state,
-        anims: state.anims.filter(anim => anim.id !== action.payload)
+        anims: state.anims.filter(anim => anim.id !== action.payload),
+        selectedAnim: ''
       };
     case CHANGEBARPOSITION:
       return {
