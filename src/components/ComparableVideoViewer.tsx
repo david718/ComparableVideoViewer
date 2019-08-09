@@ -1,35 +1,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 import { ListAction, changeBarPostion } from '../redux/actions/ListAction';
 import { RootState } from '../redux/reducers';
+import { SButton, SComparableVideoViewer } from '../styled';
 
 interface Props {
   src: string;
   barX: number;
   setBarX: (payload: number) => any;
 }
-
-const SButton = styled.button`
-  width: 80px;
-  height: 40px;
-  margin: 10px;
-
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background-color: #ff8702;
-  color: white;
-  font-size: 16px;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const SComparableVideoViewer = styled.div`
-  background-image: url('https://hsr.hodooai.com/5dcc6881b85f662376bf08b591a186bd.png');
-  background-size: cover;
-`;
 
 const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
   const videoRef: React.RefObject<HTMLVideoElement> = React.useRef(null);
@@ -46,7 +26,13 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
       const canvasX = canvas.getBoundingClientRect().left;
 
       let dragabble: boolean = false;
+
       const barWidth = 10;
+      const drawBar = (x: number, y: number, w: number, h: number, style: string) => {
+        ctx.fillStyle = style;
+        ctx.rect(x, y, w, h);
+        ctx.fill();
+      };
 
       const barMove = (e: any) => {
         if (dragabble) {
@@ -68,11 +54,6 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
         } else if (e.pageX - canvasX <= 0) {
           setBarX(0);
         }
-      };
-      const drawBar = (x: number, y: number, w: number, h: number, style: string) => {
-        ctx.fillStyle = style;
-        ctx.rect(x, y, w, h);
-        ctx.fill();
       };
 
       ctx.clearRect(0, 0, video.videoWidth / 2, video.videoHeight);
@@ -119,7 +100,6 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
         ctx.fillStyle = color;
         ctx.fillText(src, textX, size + 10);
       };
-
       ctx.beginPath();
       const leftText = {
         size: 15,
@@ -170,8 +150,12 @@ const ComparableVideoViewer: React.SFC<Props> = ({ src, barX, setBarX }) => {
       <canvas ref={canvasRef} />
       <video style={{ display: 'none' }} ref={videoRef} src={src} controls={true} />
       <div>
-        <SButton onClick={startAnim}>Start</SButton>
-        <SButton onClick={pauseAnim}>Pause</SButton>
+        <SButton width={80} onClick={startAnim}>
+          Start
+        </SButton>
+        <SButton width={80} onClick={pauseAnim}>
+          Pause
+        </SButton>
       </div>
     </SComparableVideoViewer>
   );

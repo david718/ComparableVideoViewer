@@ -1,41 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as path from 'path';
-import styled from 'styled-components';
 
 import ComparableVideoViewer from './ComparableVideoViewer';
 import { RootState } from '../redux/reducers';
 import { Anim } from '../model/Schema';
+import { STitle, SAnimTitle } from '../styled';
 
 interface Props {
   anims: Anim[];
   selectedAnimId: string;
 }
-
-const STitle = styled.div`
-  margin: 10px;
-
-  color: #ff8702;
-  font-size: 24px;
-`;
-
-const SAnimTitle = styled.div`
-  margin: 10px;
-
-  font-size: 16px;
-`;
-
-const Remove = styled.span`
-  float: right;
-  margin: 10px;
-
-  color: #ff8702;
-  font-size: 24px;
-  font-weight: bold;
-  :hover {
-    cursor: pointer;
-  }
-`;
 
 const VideoViewer: React.SFC<Props> = ({ anims, selectedAnimId }) => {
   let selectedPath = '영상을 선택해주세요';

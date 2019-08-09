@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 import { ListAction, selectAnim, deleteAnim } from '../redux/actions/ListAction';
 import { RootState } from '../redux/reducers';
+import { SAnimItem, SRemove } from '../styled';
 
 interface Props {
   id: string;
@@ -12,36 +12,6 @@ interface Props {
   changedSelectedAnimId: (payload: string) => any;
   deleteAnim: (payload: string) => any;
 }
-
-const SAnimItem = styled.div`
-  margin: 10px;
-  padding: 10px;
-
-  border: 2px solid transparent;
-  border-radius: 4px;
-  border-color: white;
-  background-color: ${props => (props.defaultChecked ? 'gainsboro' : 'white')};
-  font-size: 16px;
-  :hover {
-    border: 2px solid;
-    border-color: gainsboro;
-    cursor: default;
-  }
-  :hover .remove {
-    opacity: 1;
-  }
-`;
-
-const Remove = styled.span`
-  float: right;
-
-  font-weight: bold;
-  color: #e64980;
-  opacity: 0;
-  :hover {
-    cursor: pointer;
-  }
-`;
 
 const AnimListItem: React.SFC<Props> = ({
   id,
@@ -63,9 +33,9 @@ const AnimListItem: React.SFC<Props> = ({
   return (
     <SAnimItem onClick={selectAnim} defaultChecked={id === selectedId}>
       <span>{name}</span>
-      <Remove className="remove" onClick={deleteAnimByClick}>
+      <SRemove className="remove" onClick={deleteAnimByClick}>
         X
-      </Remove>
+      </SRemove>
     </SAnimItem>
   );
 };
