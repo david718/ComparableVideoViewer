@@ -14,15 +14,16 @@ interface Props {
 }
 
 const RAnimItem = styled.div`
-  background-color: ${props => (props.defaultChecked ? 'gainsboro' : 'white')};
+  margin: 10px;
+  padding: 10px;
   border: solid;
   border-radius: 3;
   border-color: white;
-  margin: 5px;
-  padding: 10px;
-  position: relative;
+
+  background-color: ${props => (props.defaultChecked ? 'gainsboro' : 'white')};
   :hover {
     border-color: gainsboro;
+    cursor: default;
   }
   :hover .remove {
     opacity: 1;
@@ -30,9 +31,10 @@ const RAnimItem = styled.div`
 `;
 
 const Remove = styled.span`
-  position: absolute;
+  float: right;
+  margin: 10px;
+
   font-weight: bold;
-  right: 10px;
   color: #e64980;
   opacity: 0;
   :hover {

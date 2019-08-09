@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as path from 'path';
 import * as _ from 'lodash';
+import styled from 'styled-components';
 
 import { ListAction, addFiles } from '../redux/actions/ListAction';
 import { RootState } from '../redux/reducers';
@@ -14,10 +15,38 @@ interface Props {
   addFilesToList: (payload: Anim[]) => any;
 }
 
+const SAnimList = styled.div`
+  margin: 10px;
+`;
+
+const Title = styled.div`
+  margin: 10px;
+
+  color: #ff8702;
+  font-size: 24px;
+`;
+
+const SButton = styled.button`
+  display: block;
+
+  width: 150px;
+  margin: 10px auto;
+  padding: 10px 15px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #ff8702;
+  color: white;
+  font-size: 20px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
-  const AnimTagList = anims.map(anim => {
-    return <AnimListItem key={anim.id} id={anim.id} name={path.basename(anim.path)} />;
-  });
+  const AnimTagList = anims.map(anim => (
+    <AnimListItem key={anim.id} id={anim.id} name={path.basename(anim.path.split('.')[0])} />
+  ));
 
   const getAnimsFromLocal = async (): Promise<void> => {
     try {
@@ -29,11 +58,11 @@ const AnimList: React.SFC<Props> = ({ anims, addFilesToList }) => {
   };
 
   return (
-    <div>
-      <div>애니메이션 목록</div>
-      <button onClick={getAnimsFromLocal}>Add+</button>
+    <SAnimList>
+      <Title>Animation List</Title>
+      <SButton onClick={getAnimsFromLocal}>Choose File</SButton>
       {AnimTagList}
-    </div>
+    </SAnimList>
   );
 };
 
@@ -42,7 +71,6 @@ const mapDispatchToProps = (dispatch: React.Dispatch<ListAction>) => ({
 });
 
 const mapStateToProps = (state: RootState) => {
-  console.log(state);
   return {
     anims: state.list.anims
   };

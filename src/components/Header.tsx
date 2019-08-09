@@ -1,11 +1,29 @@
 import * as React from 'react';
+import styled from 'styled-components';
+
+const SHeader = styled.div`
+  border-bottom: 2px solid gainsboro;
+`;
+
+const SAppName = styled.span`
+  float: right;
+  margin: 18px;
+
+  font-size: 32px;
+  font-weight: bold;
+`;
+
+const SLogo = styled.img`
+  height: 48px;
+  margin: 10px;
+`;
 
 const Header = () => {
   return (
-    <div>
-      <span>호두에이아이랩 로고</span>
-      <span>Animation SR</span>
-    </div>
+    <SHeader>
+      <SLogo src="https://hsr.hodooai.com/65be2cded0bdea02eb7ba91b8f246b69.png" />
+      <SAppName>AnimationSR</SAppName>
+    </SHeader>
   );
 };
 
