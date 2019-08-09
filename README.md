@@ -1,10 +1,10 @@
-# ComparableVideoViewer(electron for linux)
+# ComparableVideoViewer(electron app for linux)
 
 ### What is this app?
 
 This app renders two different screens each has different video quality.
 
-and this app has a bar
+and this app has a bar to resize those screens
 
 ## Install & Start
 
